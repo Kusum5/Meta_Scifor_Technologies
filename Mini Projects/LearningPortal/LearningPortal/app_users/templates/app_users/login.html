@@ -1,0 +1,66 @@
+<html lang="en" dir="ltr">
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <title>{%block title%} Login Here{%endblock%}</title>
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  </head>
+<nav class="navbar navbar-expand-lg  navbar-light bg-light fixed-top scrolling-navbar ">
+                <div class="container" >
+                      <a class="navbar-brand" href="{% url 'index' %}" style="color:#3888dd;" >Home</a>
+                      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+                           aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+                           <span class="navbar-toggler-icon"></span>
+                       </button>
+                      <div class="collapse navbar-collapse" id="basicExampleNav" >
+                        <ul class=" navbar-nav  mr-auto smooth-scroll " >
+                                <li class="nav-item">
+                                   <a class="nav-link" href="{% url 'courses:standard_list' %}">Courses</a>
+                                </li>
+                                {% if user.is_superuser %}
+                                <li class="nav-item ">
+                                   <a class="nav-link" href="{% url 'admin:index' %}">Admin</span> </a>
+                                </li>
+                                {%endif%}
+                                {% if user.is_authenticated %}
+                                    <li class="nav-item  ">
+                                     <a class="nav-link" href="{% url 'user_logout' %}">Logout</a>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item ">
+                                        <a class="nav-link" href="{% url 'user_login' %}">Login</a>
+                                    </li>
+                                    <li class="nav-item " >
+                                       <a class="nav-link" href="{% url 'register' %}">Register</span> </a>
+                                    </li>
+                                {% endif %}
+                        </ul>
+                      </div>
+                </div>
+              </nav>
+{% block content %}
+  <section class="text-center mt-4">
+    <h2 class="mb-5 font-weight-bold" style="color:#ff5722;padding-top:100px">Login To Explore</h2>
+   <div class="row d-flex justify-content-center mb-4">
+    <form method = "post" >
+     <div class="form-group">
+    {% csrf_token %}
+        <div class="col-md-12">
+            <div class="row">
+              <label for="username">Username</label>
+              <input type="text" name="username" placeholder="Username" class="form-control">
+
+              <label for="password">Password</label>
+              <input type="password" name="password" class="form-control">
+            </div>
+            <div class="row justify-content-center">
+              <input type="submit" value="Login" class="btn btn-light" style="background:#9ecdff;">
+            </div>
+        </div>
+     </div>
+    </form>
+   </div>
+  </section>
+{% endblock %}
+</html>

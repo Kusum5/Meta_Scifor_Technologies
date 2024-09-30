@@ -1,0 +1,63 @@
+<html lang="en" dir="ltr">
+  <head>
+    {% load static %}
+      {% load crispy_forms_tags %}
+    <meta charset="utf-8">
+    <title>{%block title%} Register Here{%endblock%}</title>
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  </head>
+<nav class="navbar navbar-expand-lg  navbar-light bg-light fixed-top scrolling-navbar ">
+                <div class="container" >
+                      <a class="navbar-brand" href="{% url 'index' %}" style="color:#3888dd;" >Home</a>
+                      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+                           aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+                           <span class="navbar-toggler-icon"></span>
+                       </button>
+                      <div class="collapse navbar-collapse" id="basicExampleNav" >
+                        <ul class=" navbar-nav  mr-auto smooth-scroll " >
+                                <li class="nav-item">
+                                   <a class="nav-link" href="{% url 'courses:standard_list' %}">Courses</a>
+                                </li>
+                                {% if user.is_superuser %}
+                                <li class="nav-item ">
+                                   <a class="nav-link" href="{% url 'admin:index' %}">Admin</span> </a>
+                                </li>
+                                {%endif%}
+                                {% if user.is_authenticated %}
+                                    <li class="nav-item  ">
+                                     <a class="nav-link" href="{% url 'user_logout' %}">Logout</a>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item ">
+                                        <a class="nav-link" href="{% url 'user_login' %}">Login</a>
+                                    </li>
+                                    <li class="nav-item " >
+                                       <a class="nav-link" href="{% url 'register' %}">Register</span> </a>
+                                    </li>
+                                {% endif %}
+                        </ul>
+                      </div>
+                </div>
+              </nav>
+{% block content %}
+  <section class="text-center mt-4">
+              <h2 class="mb-5 font-weight-bold" style="color:#ff5722;padding-top:100px">Registration</h2>
+  </section>
+      {% if registered %}
+   <h1>Thank you for registering.</h1>
+{% else %}
+   <h1>Fill the Form:</h1>
+   <form method="post" enctype="multipart/form-data">
+       {% csrf_token %}
+       {{ user_form|crispy }}
+       {{ profile_form|crispy }}
+       <div class="row justify-content-center">
+        <div class="col-md-6">
+       <input type="submit" value="Register" class="btn btn-light" style="background:#9ecdff;">
+        </div>
+        </div>
+   </form>
+{% endif %}
+{% endblock %}
+</html>
