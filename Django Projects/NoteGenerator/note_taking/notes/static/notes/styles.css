@@ -1,0 +1,144 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* General Body Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #c6d694;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* Container Styles */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styles */
+h1, h2, h3 {
+    color: #633636;
+    margin-bottom: 20px;
+}
+
+/* Links */
+a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    border: 2px black solid;
+    background:#d2c1c4;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Buttons */
+button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: brown;
+    transform: scale(1.05);
+}
+
+/* Forms */
+form {
+    margin-top: 20px;
+}
+
+form p {
+    margin-bottom: 10px;
+    color:brown;
+    font-weight:bold;
+    size:30px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 5px 0 20px 0;
+    border: 1px solid #e1e5ea;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, textarea:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Lists */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 15px;
+    border-bottom: 1px solid #e1e5ea;
+    transition: background-color 0.3s ease;
+}
+
+ul li:hover {
+    background-color: #f9f9f9;
+}
+
+ul li:last-child {
+    border-bottom: none;
+}
+
+/* Alerts */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    input, textarea {
+        font-size: 14px;
+    }
+}

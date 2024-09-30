@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'notes/styles.css' %}">
+    <title>Note List</title>
+</head>
+<body>
+    <h1>Note List</h1>
+    <a href="{% url 'note_create' %}">Create New Note</a>
+    <ul>
+        {% for note in notes %}
+            <li>
+                <a href="{% url 'note_detail' note.pk %}">{{ note.title }}</a>
+                <a href="{% url 'note_update' note.pk %}">Edit</a>
+                <a href="{% url 'note_delete' note.pk %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
