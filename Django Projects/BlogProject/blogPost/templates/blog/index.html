@@ -1,0 +1,41 @@
+{% extends 'partials/base.html'%}
+{% block title %}Home Page{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="row mt-5 pt-3">
+        <div class =" col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{form|crispy}}
+                        <input class="btn btn-primary btn-block" type="Submit" value="Post">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            {% for post in posts %}
+           <div class="card shadow my-2">
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-4">
+                         <img src=""alt="img">
+                     </div>
+                      <div class ="col-md-8">
+                       <small>{{post.date_created}}</small>
+                      <hr>
+                      <a href="h3" href="">{{post.title}}</a>
+                      <p class="text-justify my-3">
+                          {{post.content}}
+                      </p>
+                      </div>
+                  </div>
+               </div>
+           </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
