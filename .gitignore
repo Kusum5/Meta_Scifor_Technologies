@@ -1,3 +1,6 @@
 **/.idea
 **/venv
 **/environ
+**/contacts.csv
+**/cookies.json
+**/pixie.db
