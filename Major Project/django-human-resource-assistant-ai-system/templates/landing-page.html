@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en-IN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="Type, Registration, Company, Personal Account" />
+    <meta name="description" content="Selection of account type: Personal or Business" />
+    <title>Pixie Assistant</title>
+
+    <link rel="shortcut icon" href="{% static 'assets/images/logo/logo.png' %}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{% static 'assets/css/vertical-layout-light/style.css' %}" />
+  </head>
+
+  <body class="h-100">
+    <header>
+      <nav class="navbar navbar-expand-lg fixed-top bg-body-secondary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'landing_page' %}">
+            <img src="{% static 'assets/images/logo/logo.png' %}" alt="Pixie Logo" width="30" />
+            <h3 class="text-dark">Pixie Assistant</h3>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+            <a href="{% url 'accounts:login' %}" class="btn btn-outline-primary px-5">Sign In</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <section class="row" id="personal">
+      <div class="col-12 col-md-6">
+        <img src="{% static 'assets/accounts/images/bg.png' %}" alt="Job Image" class="w-100 h-100" />
+      </div>
+
+      <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center text-center p-5">
+        <div>
+          {% include 'partials/_alerts.html' %}
+        </div>
+        <h1 class="text-left">Stay Alert for the Best Career Opportunities in the Job Market</h1>
+        <p class="text-left">Explore and apply for the best opportunities for yourself. Keep track of vacancies from your dream job and prepare for them!</p>
+        <p>
+          <a href="{% url 'accounts:signup-personal' %}" class="btn btn-lg btn-outline-primary">Create Personal Account</a>
+        </p>
+      </div>
+    </section>
+
+    <section id="business">
+      <div class="molde">
+        <div class="row align-items-center text-center p-5">
+          <div class="col-12 col-md-6">
+            <h1 class="text-left">An Easy, Smart, and Simplified Recruitment Process</h1>
+            <p class="text-left">Utilize the best technology to help you select the job that best fits your profile.</p>
+          </div>
+          <div class="col-12 col-md-6 align-items-center">
+            <img src="{% static 'assets/accounts/images/img_1.png' %}" alt="Background Image" class="w-100 rounded" />
+          </div>
+            <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center text-center">
+        <div>
+          {% include 'partials/_alerts.html' %}
+        </div>
+        <p>
+          <a href="{% url 'accounts:signup-business' %}" class="btn btn-lg btn-outline-primary">Create Recruiter Account</a>
+        </p>
+      </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="text-center">
+      <p>
+          ©2024 Pixie
+      </p>
+    </footer>
+  </body>
+</html>

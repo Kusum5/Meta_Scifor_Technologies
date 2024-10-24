@@ -1,0 +1,201 @@
+{% extends 'business/base.html' %}
+{% load static %}
+
+{% block metas %}
+  <meta name="description" content="Job Editing" />
+  <meta name="keywords" content="Jobs, Edit, Editing" />
+{% endblock %}
+
+{% block title %}
+  Edit Job
+{% endblock %}
+
+{% block local_style %}
+
+{% endblock %}
+
+{% block content %}
+  <main class="content-wrapper">
+    <div class="d-flex justify-content-end">
+      {% include 'partials/_messages.html' %}
+    </div>
+
+    <section>
+      <div class="row">
+        <div class="col-12 col-lg-8 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <a href="{{ vacancy.get_absolute_url }}" class="btn btn-primary">
+                        <i class="bi bi-arrow-left"></i>
+                        View Job
+                    </a>
+                    <h2 class="card-title">
+                        Job: <span class="text-primary">{{ vacancy.title }}</span>
+                    </h2>
+                </div>
+
+              <ul class="nav nav-pills mb-3 mt-4" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link " id="pills-basic-informations-tab" data-toggle="pill" data-target="#pills-basic-informations" type="button" role="tab" aria-controls="pills-basic-informations" aria-selected="true">
+                    <i class="bi bi-person-vcard"></i> General Information</button>
+                  </button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="pills-skills-tab" data-toggle="pill" data-target="#pills-skills" type="button" role="tab" aria-controls="pills-skills" aria-selected="false">
+                    <i class="bi bi-journals"></i>
+                    Technical Requirements
+                  </button>
+                </li>
+                
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="pills-responsibilities-tab" data-toggle="pill" data-target="#pills-responsibilities" type="button" role="tab" aria-controls="pills-responsibilities" aria-selected="false">
+                    <i class="bi bi-person-lines-fill"></i>
+                    Responsibilities
+                  </button>
+                </li>
+                
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="pills-benefits-tab" data-toggle="pill" data-target="#pills-benefits" type="button" role="tab" aria-controls="pills-benefits" aria-selected="false">
+                    <i class="bi bi-file-earmark-text"></i>
+                    Benefits
+                  </button>
+                </li>
+              </ul>
+              <div class="tab-content" id="pills-tabContent">
+                {% include "business/partials/_vacancy_information_tab.html" %}
+                {% include "business/partials/_vacancy_requirements_tab.html" %}
+                {% include "business/partials/_vacancy_responsabilities_tab.html" %}
+                {% include "business/partials/_vacancy_benefits_tab.html" %}
+              </div>
+              
+            </div>
+
+            <div class="d-sm-flex justify-content-end m-3">
+              <div>
+                <button type="button" class="btn btn-sm btn-danger mr-2" data-toggle="modal" data-target="#exampleModal">
+                  <i class="bi bi-trash"></i>
+                  Delete Job Posting
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-4 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                  <h2 class="card-title">
+                    Job: <span class="text-primary">{{ vacancy.title }}</span>
+                </h2>
+                  <p class="h5">
+                    <div class="d-flex">
+                        <i class="bi bi-clock-fill"></i> 
+                        Registration Date: 
+                    </div>
+                    <p class="mt-2">
+                        <span class=" p-1 alert-danger">{{ vacancy.created_at }}</span>
+                    </p>
+                  </p>
+              
+                  <p class="card-title" style="font-size:medium;">
+                    <span>
+                      <i class="bi bi-geo-alt-fill"></i>
+                      <span class="badge badge-warning">{{ vacancy.city }}</span>
+                    </span>
+              
+                    <span class="mx-3">
+                      <i class="bi bi-briefcase-fill"></i>
+                      <span class="badge badge-success">{{ vacancy.job_type }}</span>
+                    </span>
+                  </p>
+              
+                  <div>
+                    <p>{{ vacancy.description|safe }}</p>
+                  </div>
+              
+                  {% if vacancy.get_skills %}
+                    <div class="mt-5">
+                      <h2 class="h4">Technical Requirements</h2>
+                      <ul class="ml-4">
+                        {% for skill in vacancy.get_skills %}
+                          <li>
+                            <div class="d-flex">
+                                {{ skill.title }}
+                                -
+                                <form action='{% url "business:delete-skill" skill.sid %}' method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class='btn '>
+                                        <i class="bi bi-trash text-danger"></i>
+                                    </button>
+                                </form> 
+                            </div>
+                          </li>
+                        {% empty %}
+                          <p class="text-muted">No requirements specified for this job</p>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {% endif %}
+              
+                  {% if vacancy.get_responsibilities %}
+                    <div class="mt-5">
+                      <h2 class="h4">Responsibilities</h2>
+                      <ul class="ml-4">
+                        {% for responsibility in vacancy.get_responsibilities %}
+                        <li>
+                            <div class="d-flex">
+                            {{ responsibility.title }}
+                            - <form action='{% url "business:delete-responsibility" responsibility.rid %}' method="post">
+                                {% csrf_token %}
+                                <button type="submit" class='btn '>
+                                    <i class="bi bi-trash text-danger"></i>
+                                </button>
+                            </form> 
+                        </div>
+                          </li>
+                        {% empty %}
+                          <p class="text-muted">No responsibilities specified for this job</p>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {% endif %}
+              
+                  {% if vacancy.get_benefits %}
+                    <div class="mt-5">
+                      <h2 class="h4">Benefits</h2>
+                      <ul class="ml-4">
+                        {% for benefit in vacancy.get_benefits %}
+                          <li>
+                            <div class="d-flex">
+                            {{ benefit.title }}
+                            - <form action='{% url "business:delete-benefit" benefit.bid %}' method="post">
+                                {% csrf_token %}
+                                <button type="submit" class='btn '>
+                                    <i class="bi bi-trash text-danger"></i>
+                                </button>
+                            </form> 
+                        </div>
+                          </li>
+                        {% empty %}
+                          <p class="text-muted">No benefits specified for this job</p>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+        </div>
+      </div>
+    </section>
+
+    {% include 'business/partials/_vacancy_delete_modal.html' %}
+  </main>
+{% endblock %}
+
+{% block local_script %}
+<script src="{% static 'assets/js/file-upload.js' %}"></script>
+  <script src="{% static 'assets/js/typeahead.js' %}"></script>
+  <script src="{% static 'assets/js/select2.js' %}"></script>
+{% endblock %}

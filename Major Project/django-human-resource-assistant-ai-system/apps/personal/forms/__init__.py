@@ -1,0 +1,4 @@
+from .personal_information_form import PersonalInformationForm, PersonalProfileInformationForm
+from .personal_formation_form import AcademicFormationForm, ProfissionalFormationForm
+from .personal_experience_form import ProfissionalExperienceForm
+from .personal_documentation_form import PersonalDocumentationForm

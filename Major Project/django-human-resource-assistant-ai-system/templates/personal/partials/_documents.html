@@ -1,0 +1,75 @@
+{% load static %}
+<div class="tab-pane fade" id="pills-documents" role="tabpanel" aria-labelledby="pills-documents-tab">
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Your Documents</h4>
+                    <p class="card-description">
+                        Keeping your documents updated is essential to take advantage of the opportunities that arise.
+                    </p>
+                    <p class="card-description text-danger">
+                        Fields marked with * are mandatory.
+                    </p>
+
+                    <form id="documentationForm" method="post" action="{% url 'personal:add-documentation' %}"
+                        enctype="multipart/form-data" class="forms-sample">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            {% for field in personal_documentation_form.visible_fields %}
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="{{ field.id_for_label }}"> {{ field.label }}</label>
+                                    {{ field }}
+
+                                    <div class="input-group col-xs-12">
+                                        {% if field.value %}
+                                        <input type="text" class="form-control file-upload-info" disabled placeholder="{{ field.value.url }}">
+                                        {% else %}
+                                        <input type="text" class="form-control file-upload-info" disabled placeholder="{{ field.label }}">
+                                        {% endif %}
+                                        <span class="input-group-append">
+                                            <button class="file-upload-browse btn btn-primary" type="button">
+                                                Upload File
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                    {% if field.value %}
+                                    <a target="_blank" href="{{ field.value.url }}"> 
+                                        <i class='bi bi-file'></i>
+                                        Document
+                                    </a>
+                                    {% endif %}
+
+                                    {% if field.help_text %}
+                                    <p class="text-danger"> <small>{{ field.help_text }}</small> </p>
+                                    {% endif %}
+
+                                    {% if field.errors %}
+                                    <div class="text-danger error-messages"> {{ field.errors }} </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                        <button type="submit" class="btn btn-primary mr-2" id="btnUploadFiles">
+                            <i class="bi bi-send"></i>
+                            Submit Files
+                        </button>
+                        <button type="reset" class="btn btn-light">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.getElementById("btnUploadFiles").addEventListener("click", function (e) {
+        document.getElementById("documentationForm").submit();
+    })
+</script>

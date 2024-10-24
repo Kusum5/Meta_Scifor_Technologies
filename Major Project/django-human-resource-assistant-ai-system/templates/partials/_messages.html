@@ -1,0 +1,16 @@
+{% load static %}
+{% if messages %}
+<div class="row" id="proBanner">
+    <div class="col-12">
+        <span class="d-flex align-items-center purchase-popup">
+            {% for message in messages %}
+            <p class="text-{{ message.tags }}">{{message}}</p>
+            {% endfor %}
+            <span class="btn download-button purchase-button ml-auto" style="visibility: hidden;">Invisible</span>
+            <i class="typcn typcn-delete-outline text-primary" id="bannerClose"></i>
+        </span>
+    </div>
+</div>
+{% else %}
+    <i class="typcn typcn-delete-outline text-primary d-none" id="bannerClose"></i>
+{% endif %}

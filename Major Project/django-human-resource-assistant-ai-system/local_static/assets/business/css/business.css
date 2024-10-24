@@ -1,0 +1,12 @@
+.vacancy-title{
+    letter-spacing: 2px;
+    text-align: justify;
+}
+
+.vacancy-image{
+    background-color: transparent;
+}
+
+.text-justify{
+    text-align: start;
+}

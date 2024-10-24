@@ -1,0 +1,195 @@
+{% load static %}
+<div class="tab-pane fade" id="pills-formation" role="tabpanel" aria-labelledby="pills-formation-tab">
+    <h1 class="text-center">Your education helps us know what you're capable of</h1>
+    <div class="row justify-content-center">
+        <div class="col-10 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h2>Academic Formation</h2>
+                    <p class="card-description">
+                        Your data will help recruiters know more about you!
+                    </p>
+
+                    <form method="post" class="forms-sample">
+                        {% csrf_token %}
+
+                        <div class="row justify-content-end text-start">
+                            {% for field in personal_academic_formation_form.visible_fields %}
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                                <label for="{{ field.id_for_label }}"> {{ field.label }}</label>
+                                {{ field }}
+
+                                {% if field.help_text %}
+                                <p class="text-muted"> <small>{{ field.help_text }}</small> </p>
+                                {% endif %}
+
+                                {% if field.errors %}
+                                <div class="text-danger error-messages"> {{ field.errors }} </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+
+
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                                <label for="" class="w-100" style="visibility: hidden;">Add</label>
+                                <button type="submit" class="btn btn-primary w-100 " id="btnAddItens">
+                                    <i class="bi bi-plus"></i>
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-10 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Academic Formations</h4>
+                    <p class="card-description">
+                        Registered formations
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table text-left">
+                            <thead>
+                                <tr>
+                                    <th>Course</th>
+                                    <th>Institution</th>
+                                    <th>Start Year</th>
+                                    <th>End Year</th>
+                                    <th>Completed</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for formation in acad_formation_items %}
+                                <tr>
+                                    <td>{{formation.course}}</td>
+                                    <td>{{formation.institution}}</td>
+                                    <td>{{formation.start_year}}</td>
+                                    <td>{{formation.end_year}}</td>
+                                    <td>{{formation.get_finished_status}}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <form method="post" action="{% url 'personal:delete-academic-formation' formation.aid %}">
+                                                {% csrf_token %}
+                                                <button title="Delete formation" type="submit"
+                                                class="btn btn-primary btn-sm  mr-3" data-toggle="modal"
+                                                data-target="#modalLawyerDelete{{lawyer.id}}">
+                                                <i class="typcn typcn-delete-outline btn-icon-append"></i>
+                                                Delete
+                                            </button>
+                                        </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4"><p>No academic formations registered!</p></td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-10 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h2>Professional Formation</h2>
+                    <p class="card-description">
+                        Your data will help recruiters know more about you!
+                    </p>
+
+                    <form method="post" class="forms-sample">
+                        {% csrf_token %}
+                        <div class="row justify-content-start text-start">
+                            {% for field in personal_professional_formation_form.visible_fields %}
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                                <label for="{{ field.id_for_label }}"> {{ field.label }}</label>
+                                {{ field }}
+
+                                {% if field.help_text %}
+                                <p class="text-muted"> <small>{{ field.help_text }}</small> </p>
+                                {% endif %}
+
+                                {% if field.errors %}
+                                <div class="text-danger error-messages"> {{ field.errors }} </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+
+
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                                <label for="" class="w-100" style="visibility: hidden;">Add</label>
+                                <button type="submit" class="btn btn-primary w-100 " id="btnAddItens">
+                                    <i class="bi bi-plus"></i>
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-10 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Professional Formations</h4>
+                    <p class="card-description">
+                        Your registered professional formations
+                    </p>
+                    <div class="table-responsive">
+                        <table class="table text-left">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Institution</th>
+                                    <th>Hours</th>
+                                    <th>Year</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for formation in prof_formation_items %}
+                                <tr>
+                                    <td>{{formation.title}}</td>
+                                    <td>{{formation.institution}}</td>
+                                    <td>{{formation.hours}}</td>
+                                    <td>{{formation.year}}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <form method="post" action="{% url 'personal:delete-professional-formation' formation.pid %}">
+                                                {% csrf_token %}
+                                                <button title="Delete professional formation" type="submit"
+                                                class="btn btn-primary btn-sm  mr-3" data-toggle="modal"
+                                                data-target="#modalLawyerDelete{{lawyer.id}}">
+                                                <i class="typcn typcn-delete-outline btn-icon-append"></i>
+                                                Delete
+                                            </button>
+                                        </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4"><p>No professional formations registered!</p></td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

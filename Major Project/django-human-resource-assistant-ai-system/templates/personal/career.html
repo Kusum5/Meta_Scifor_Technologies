@@ -1,0 +1,71 @@
+{% extends 'personal/base.html' %}
+{% load static %}
+
+{% block metas %}
+<meta name="description" content="Find the best job vacancies">
+<meta name="keywords" content="Job Vacancies, Opportunities">
+{% endblock %}
+
+{% block title %}
+Spontaneous Vacancies
+{% endblock %}
+
+{% block local_style %}
+{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <h1>Career</h1>
+    <div class="border border-5">
+
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="pills-personal-information-tab" data-toggle="pill"
+                    data-target="#pills-personal-information" type="button" role="tab"
+                    aria-controls="pills-personal-information" aria-selected="true">
+                    <i class="bi bi-person-vcard"></i> Personal Information
+                </button>
+            </li>
+            
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-formation-tab" data-toggle="pill" data-target="#pills-formation"
+                    type="button" role="tab" aria-controls="pills-formation" aria-selected="false">
+                    <i class="bi bi-journals"></i>
+                    Academic Qualifications
+                </button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-experience-tab" data-toggle="pill" data-target="#pills-experience"
+                    type="button" role="tab" aria-controls="pills-experience" aria-selected="false">
+                    <i class="bi bi-person-lines-fill"></i>
+                    Professional Experience
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-documents-tab" data-toggle="pill" data-target="#pills-documents"
+                    type="button" role="tab" aria-controls="pills-documents" aria-selected="false">
+                    <i class="bi bi-file-earmark-text"></i>
+                    Documents 
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="pills-tabContent">
+
+            {% include 'personal/partials/_personal_information_tab.html' %}
+            {% include 'personal/partials/_experience.html' %}
+            {% include 'personal/partials/_formation.html' %}
+            {% include 'personal/partials/_documents.html' %}
+            
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block local_script %}
+<script src="{% static 'assets/js/file-upload.js' %}"></script>
+  <script src="{% static 'assets/js/typeahead.js' %}"></script>
+  <script src="{% static 'assets/js/select2.js' %}"></script>
+{% endblock %}
+

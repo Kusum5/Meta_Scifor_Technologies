@@ -1,0 +1,120 @@
+{% extends 'business/base.html' %}
+{% load static %}
+
+{% block metas %}
+  <meta name="description" content="Find the best talents for your organization" />
+  <meta name="keywords" content="Talents, Worker, Resource, Hiring, Value" />
+{% endblock %}
+
+{% block title %}
+  New Job Vacancy
+{% endblock %}
+
+{% block local_style %}
+
+{% endblock %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <div class="d-flex justify-content-end">
+      {% include 'partials/_messages.html' %}
+    </div>
+
+    {% comment %} <section>
+      <h2>Job Applications</h2>
+      <div class="row justify-content-center">
+        <div class="col-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h2>Academic Formation</h2>
+              <p class="card-description">Your data will help recruiters know more about you!</p>
+
+              <form method="post" action="{% url 'personal:add-academic-formation' %}" class="forms-sample">
+                {% csrf_token %}
+
+                <div class="form-group">
+                  {% include 'partials/_alerts.html' %}
+                </div>
+
+                <div class="row justify-content-end text-start">
+                  {% for field in personal_academic_formation_form.visible_fields %}
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                      {{ field }}
+
+                      {% if field.help_text %}
+                        <p class="text-muted">
+                          <small>{{ field.help_text }}</small>
+                        </p>
+                      {% endif %}
+
+                      {% if field.errors %}
+                        <div class="text-danger error-messages">{{ field.errors }}</div>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                    <label for="" class="w-100" style="visibility: hidden;">Add</label>
+                    <button type="submit" class="btn btn-primary w-100" id="btnAddItens">
+                      <i class="bi bi-plus"></i>
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> {% endcomment %}
+
+    <section>
+      <div class="row justify-content-center">
+        <div class="col-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title">Vacancy Details</h2>
+              <div class="border"></div>
+              <p class="card-description mt-3">A well-detailed job vacancy has a higher chance of attracting the right candidates</p>
+              <form method="post" action="{% url 'business:register-vacancy' %}" class="forms-sample">
+                {% csrf_token %}
+
+                <div class="row justify-content-end text-start">
+                  {% for field in register_vacancy_form.visible_fields %}
+                    <div class="{{ field.field.widget.attrs.tamanho }}">
+                      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                      {{ field }}
+
+                      {% if field.help_text %}
+                        <p class="text-muted">
+                          <small>{{ field.help_text }}</small>
+                        </p>
+                      {% endif %}
+
+                      {% if field.errors %}
+                        <div class="text-danger error-messages">{{ field.errors }}</div>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                    <label for="" class="w-100" style="visibility: hidden;">Save</label>
+                    <button type="submit" class="btn btn-primary w-100" id="btnAddItens">
+                      <i class="bi bi-save"></i>
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}
+
+{% block local_script %}
+
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends 'personal/base.html' %}
+{% load static %}
+
+{% block metas %}
+  <meta name="description" content="Find the best talent for your organization" />
+  <meta name="keywords" content="Talent, Worker, Resource, Hiring, Value" />
+{% endblock %}
+
+{% block title %}
+  Job Openings
+{% endblock %}
+
+{% block local_style %}
+
+{% endblock %}
+
+{% block content %}
+  <main class="content-wrapper">
+    <div class="d-flex justify-content-end">
+      {% include 'partials/_messages.html' %}
+    </div>
+
+    <section>
+      <div class="row">
+        <div class="col-8 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title">Job: {{ vacancy.title }}</h2>
+              <p class="text-muted h5">
+                <i class="bi bi-clock-fill"></i> Registration Date: <span class="text-success">{{ vacancy.created_at }}</span>
+              </p>
+
+              <p class="card-title" style="font-size:medium;">
+                <span>
+                  <i class="bi bi-geo-alt-fill"></i>
+                  <span class="badge badge-warning">{{ vacancy.city }}</span>
+                </span>
+
+                <span class="mx-3">
+                  <i class="bi bi-briefcase-fill"></i>
+                  <span class="badge badge-success">{{ vacancy.job_type }}</span>
+                </span>
+              </p>
+
+              <div>
+                <p>{{ vacancy.description|safe }}</p>
+              </div>
+
+              {% if vacancy.get_skills %}
+                <div class="mt-5">
+                  <h2 class="h4">Technical Requirements</h2>
+                  <ul class="ml-4">
+                    {% for skill in vacancy.get_skills %}
+                      <li>{{ skill.title }}</li>
+                    {% empty %}
+                      <p class="text-muted">No requirements specified for this job</p>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+
+              {% if vacancy.get_responsibilities %}
+                <div class="mt-5">
+                  <h2 class="h4">Responsibilities</h2>
+                  <ul class="ml-4">
+                    {% for responsibility in vacancy.get_responsibilities %}
+                      <li>{{ responsibility.title }}</li>
+                    {% empty %}
+                      <p class="text-muted">No responsibilities specified for this job</p>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+
+              {% if vacancy.get_benefits %}
+                <div class="mt-5">
+                  <h2 class="h4">Benefits</h2>
+                  <ul class="ml-4">
+                    {% for responsibility in vacancy.get_benefits %}
+                      <li>{{ responsibility.title }}</li>
+                    {% empty %}
+                      <p class="text-muted">No benefits specified for this job</p>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="d-sm-flex justify-content-end m-3">
+              <div>
+                {% if applied %}
+                  <button type="button" disabled class="btn btn-sm btn-success mr-2" data-toggle="modal" data-target="#exampleModal">
+                    <i class="typcn typcn-user-outline"></i>
+                    Application Submitted
+                  </button>
+                {% else %}
+                  <button type="button" class="btn btn-sm btn-danger mr-2" data-toggle="modal" data-target="#exampleModal">
+                    <i class="typcn typcn-user-outline"></i>
+                    Apply for Job
+                  </button>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <img src="{{ vacancy.company.company_profile.image_url }}" alt="{{ vacancy.company.get_full_name }}" class="mb-4 vacancy-image card-img-top" />
+          <p class="text-justify">{{ vacancy.company.company_profile.bio|safe }}</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Application for job {{ vacancy.title }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">Are you sure you want to apply for this job?</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <form method="post" action="{% url 'personal:apply-for-vacancy' vacancy.vid %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-info">
+                Yes
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}
+
+{% block local_script %}
+
+{% endblock %}

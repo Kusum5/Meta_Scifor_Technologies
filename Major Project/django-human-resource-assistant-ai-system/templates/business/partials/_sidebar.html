@@ -1,0 +1,45 @@
+{% load static %} 
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+
+    <li class="nav-item">
+      <div class="d-flex sidebar-profile">
+        <div class="sidebar-profile-image">
+          <img src="{{ request.user.company_profile.image_url}}" alt="{{request.user.get_full_name}}" width="30"/>
+          <span class="sidebar-status-indicator"></span>
+        </div>
+        <div class="sidebar-profile-name">
+          <p class="sidebar-name">
+            {{request.user.get_full_name}}
+          </p>
+          <p class="sidebar-designation">
+            Welcome
+          </p>
+        </div>
+      </div>
+      <p class="sidebar-menu-title">Menu</p>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'business:user-profile' request.user.uid %}">
+        <i class="typcn typcn-device-desktop menu-icon"></i>
+        <span class="menu-title">Home</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'business:vacancy-list'  %}">
+        <i class="typcn typcn-device-desktop menu-icon"></i>
+        <span class="menu-title">My Job Listings</span>
+      </a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-link" href="/admin">
+        <i class="typcn typcn-device-desktop menu-icon"></i>
+        <span class="menu-title">Adminstration</span>
+      </a>
+    </li>
+    
+  </ul>
+</nav>

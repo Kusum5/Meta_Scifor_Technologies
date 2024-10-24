@@ -1,0 +1,115 @@
+{% extends 'business/base.html' %}
+{% load static %}
+
+{% block metas %}
+  <meta name="description" content="Find the best talents for your organization" />
+  <meta name="keywords" content="Talents, Worker, Resource, Hiring, Value" />
+{% endblock %}
+
+{% block title %}
+  Jobs
+{% endblock %}
+
+{% block local_style %}
+
+{% endblock %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <div class="d-flex justify-content-end">
+      {% include 'partials/_messages.html' %}
+    </div>
+
+    <div class="jumbotron bg-white">
+      <h1 class="display-4">Candidate control and filtering has never been easier</h1>
+      <p class="lead">Hire people not only with skills but also with values aligned with the company's culture</p>
+      <hr class="my-4" />
+      <p>Great professionals are waiting for great companies out there. Are you ready to receive them?</p>
+      <a href="{% url 'business:candidacy-analyses' vacancy.vid %}" class="btn btn-outline-primary">
+        <i class="bi bi-funnel"></i>
+        Filter Applications
+      </a>
+    </div>
+
+    <div class="row justify-content-around">
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <h2 class="card-title">Submitted Applications</h2>
+              <span>Total Applications: <span class="font-weight-bolder text-primary">{{total_candidates}}</span> </span>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Candidate</th>
+                    <th>Name</th>
+                    <th>Date of Birth</th>
+                    <th>CV</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for candidate in candidates %}
+                    <tr>
+                      <td class="py-1">
+                        <img src="{{ candidate.user.personal_profile.image_url }}" alt="{{ candidate.user.get_full_name }}" />
+                      </td>
+                      <td>{{ candidate.user.get_full_name }}</td>
+
+                      <td>{{ candidate.user.personal_profile.birthday }}</td>
+                      <td>
+                        <a href="{{ candidate.cv.url }}" target="_blank" class="text-primary h3">
+                          <i class="bi bi-file-pdf"></i>
+                          CV
+                        </a>
+                      </td>
+                    </tr>
+                  {% empty %}
+                    <tr>
+                      <td colspan="7">
+                        <p class="text-secondary">No applications submitted for this job!</p>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <div class="clearfix">
+                <div class="hint-text">
+                  Showing <b>{{ candidates.number }}</b> of <b>{{ candidates.paginator.num_pages }}</b>
+                </div>
+                <ul class="pagination">
+                  {% if candidates.has_previous %}
+                    <li class="page-item">
+                      <a href="?page={{ candidates.previous_page_number }}{{ additional_url_query }}" class="page-link">Previous</a>
+                    </li>
+                  {% endif %}
+
+                  {% for num_page in candidates.paginator.page_range %}
+                    <li class="page-item {% if num_page == candidates.number %}{% endif %}">
+                      <a href="?page={{ num_page }}{{ additional_url_query }}" class="page-link">{{ num_page }}</a>
+                    </li>
+                  {% endfor %}
+
+                  {% if candidates.has_next %}
+                    <li class="page-item">
+                      <a href="?page={{ candidates.next_page_number }}{{ additional_url_query }}" class="page-link">Next</a>
+                    </li>
+                    <li class="page-item">
+                      <a href="?page={{ candidates.paginator.num_pages }}{{ additional_url_query }}" class="page-link">Last &raquo;</a>
+                    </li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block local_script %}
+
+{% endblock %}

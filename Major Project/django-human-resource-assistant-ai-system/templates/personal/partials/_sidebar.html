@@ -1,0 +1,47 @@
+{% load static %}
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="d-flex sidebar-profile">
+        <div class="sidebar-profile-image">
+          <img src="{{ request.user.personal_profile.image_url }}" alt="{{ request.user.get_full_name }}" width="30" />
+          <span class="sidebar-status-indicator"></span>
+        </div>
+        <div class="sidebar-profile-name">
+          <p class="sidebar-name">{{ request.user.get_full_name }}</p>
+          <p class="sidebar-designation">Welcome</p>
+        </div>
+      </div>
+
+      <p class="sidebar-menu-title">Menu</p>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'personal:user-profile' request.user.uid %}">
+        <i class="bi bi-pc-display-horizontal menu-icon"></i>
+        <span class="menu-title">Home</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'personal:career' %}">
+        <i class="bi bi-person-bounding-box menu-icon"></i>
+        <span class="menu-title">My Career</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'personal:vacancy-list' %}">
+          <i class="bi bi-card-list menu-icon"></i>
+          <span class="menu-title">Vacancies</span>
+        </a>
+    </li>
+    
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'personal:my-candidates' %}">
+          <i class="bi bi-person-check menu-icon"></i>
+        <span class="menu-title">My Applications</span>
+      </a>
+    </li>
+  </ul>
+</nav>

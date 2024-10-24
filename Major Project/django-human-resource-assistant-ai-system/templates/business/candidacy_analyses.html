@@ -1,0 +1,150 @@
+{% extends 'business/base.html' %}
+{% load static %}
+
+{% block metas %}
+  <meta name="description" content="Find the best talents for your organization" />
+  <meta name="keywords" content="Talents, Worker, Resource, Hiring, Value" />
+{% endblock %}
+
+{% block title %}
+  Candidate Analysis for Vacancy
+{% endblock %}
+
+{% block local_style %}
+<style>
+    /* Style to enable scrolling in the summary column */
+    .summary {
+        max-height: 100px; /* Adjust as necessary */
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <div class="d-flex justify-content-end">
+      {% include 'partials/_messages.html' %}
+    </div>
+
+    <div class="row justify-content-around" id="formContainer">
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <div class="default-text text-center" id="default-chat-container">
+              <div class="text-center">
+                <h1 class="text-primary">Pixie AI Assist</h1>  
+                <h4>How can I assist You?</h4>
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                  <input type="number" id="numDocuments" min="1" placeholder="How many 'Resumes' should be returned?" class="form-control" />
+                  <button type="button" id="btnStart" class="btn btn-outline-primary w-50 mt-3">Start</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-around">
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <h2 class="card-title">Submitted Applications</h2>
+              <span>Total Applications: <span class="font-weight-bolder text-primary">{{ total_candidates }}</span></span>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Candidate</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Date of Birth</th>
+                    <th>CV</th>
+                    <th>Compatibility</th>
+                    <th>Summary</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for candidate in candidates %}
+                    <tr>
+                        <td class="py-1">
+                            <a href='{% url "business:candidate-user-profile" candidate.user.uid %}' target="_blank">
+                                <img src="{{ candidate.user.personal_profile.image_url }}" alt="{{ candidate.user.get_full_name }}" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href='{% url "business:candidate-user-profile" candidate.user.uid %}' target="_blank">
+                                {{ candidate.user.get_full_name }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href='{% url "business:candidate-user-profile" candidate.user.uid %}' target="_blank">
+                                {{ candidate.user.email }}
+                            </a>
+                        </td>
+                        
+                        <td>{{ candidate.user.personal_profile.birthday|date:"d-m-Y" }}</td>
+                        <td>
+                            <a href="{{ candidate.cv.url }}" target="_blank" class="text-primary h3 cvLink" title="Curriculum Vitae of {{candidate.user.get_full_name}}">
+                                <i class="bi bi-file-pdf"></i>
+                            </a>
+                        </td>
+                        <td> <span class="compatibility  p-2">-</span></td>
+                        <td><p class="summary p-2">-</p></td>
+                    </tr>
+                  {% empty %}
+                    <tr>
+                      <td colspan="7">
+                        <p class="text-secondary">No applications submitted for this vacancy!</p>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              {% comment %} Pagination would go here {% endcomment %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{ vacancy.vid|json_script:'json-vacancy_vid' }}
+{% endblock %}
+
+{% block local_script %}
+  <script src="{% static 'assets/business/js/candidacy_analyse.js' %}" defer></script>
+{% endblock %}
+
+
+<div class="clearfix">
+    <div class="hint-text">
+      Showing <b>{{ candidates.number }}</b> of <b>{{ candidates.paginator.num_pages }}</b>
+    </div>
+    <ul class="pagination">
+      {% if candidates.has_previous %}
+        <li class="page-item">
+          <a href="?page={{ candidates.previous_page_number }}{{ additional_url_query }}" class="page-link">Previous</a>
+        </li>
+      {% endif %}
+
+      {% for num_page in candidates.paginator.page_range %}
+        <li class="page-item {% if num_page == candidates.number %}{% endif %}">
+          <a href="?page={{ num_page }}{{ additional_url_query }}" class="page-link">{{ num_page }}</a>
+        </li>
+      {% endfor %}
+
+      {% if candidates.has_next %}
+        <li class="page-item">
+          <a href="?page={{ candidates.next_page_number }}{{ additional_url_query }}" class="page-link">Next</a>
+        </li>
+        <li class="page-item">
+          <a href="?page={{ candidates.paginator.num_pages }}{{ additional_url_query }}" class="page-link">Last &raquo;</a>
+        </li>
+      {% endif %}
+    </ul>
+</div>

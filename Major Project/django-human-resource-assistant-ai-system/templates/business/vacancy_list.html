@@ -1,0 +1,71 @@
+{% extends 'business/base.html' %}
+{% load static %}
+
+{% block metas %}
+  <meta name="description" content="Find the best talents for your organization" />
+  <meta name="keywords" content="Talents, Worker, Resource, Hiring, Value" />
+{% endblock %}
+
+{% block title %}
+  Vacancies
+{% endblock %}
+
+{% block local_style %}
+{% endblock %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <div class="d-flex justify-content-end">
+      {% include 'partials/_messages.html' %}
+    </div>
+
+    <div class="jumbotron bg-white">
+      <h1 class="display-4">Vacancies and Applications</h1>
+      <p class="lead">Hire people with skills, but also with values aligned to the company culture</p>
+      <hr class="my-4" />
+      <p>Great professionals are waiting for great companies out there. Are you ready to welcome them?</p>
+      <a href="{% url 'business:register-vacancy' %}" class="btn btn-primary">
+        <i class="bi bi-plus-circle-fill"></i>
+        New Vacancy
+      </a>
+    </div>
+
+    <section>
+      <h2>Vacancy Applications</h2>
+    </section>
+
+    <div class="row">
+      {% for vacancy in vacancies %}
+        <article class="col-12 col-sm-6 col-xl-4 my-2">
+          <div class="card rounded-lg" style="min-width: 20rem; min-height: 520px;">
+            <img src="{{ vacancy.image_url }}" class="vacancy-image card-img-top" alt="{{ vacancy.title }}" style="width:100%; max-height:230px;" />
+            
+            <div class="card-body border-top">
+              <a href="{{ vacancy.get_absolute_url }}"><h5 class="card-title vacancy-title text-center text-primary">{{ vacancy.title }}</h5></a>
+              <div class="d-flex justify-content-between">
+                <span class="card-title text-muted">
+                  <i class="bi bi-geo-alt-fill"></i>
+                  {{vacancy.city}}
+                </span>
+                <span class="card-title p-2 alert-success">{{ vacancy.job_type }}</span>
+              </div>
+              <p class="card-text align-self-end" style="min-height: 90px;">{{ vacancy.description|slice:":135" }}...</p>
+              <a href="{{ vacancy.get_absolute_url }}" class="btn btn-outline-primary">View more..</a>
+            </div>
+
+            <div class="card-footer d-flex justify-content-between">
+              <span>Applications: {{vacancy.candidate_count}}</span>
+              <a href="{% url 'business:candidacy-list' vacancy.vid %}" class="">View</a>
+            </div>
+          </div>
+        </article>
+      {% empty %}
+        <p class="text-muted">There are currently no job offers published!</p>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block local_script %}
+{% endblock %}
+

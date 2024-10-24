@@ -1,0 +1,4 @@
+from .register_vacancy_form import RegisterVacancyForm
+from .vacancy_skills_form import VacancySkillForm
+from .vacancy_benefits_form import VacancyBenefitForm
+from .vacancy_responsibilities_form import VacancyResponsibilityForm

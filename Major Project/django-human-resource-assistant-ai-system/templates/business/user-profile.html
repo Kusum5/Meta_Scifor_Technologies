@@ -1,0 +1,224 @@
+{% extends 'business/base.html' %}
+{% load static %}
+
+{% block metas %}
+<meta name="description" content="Find the best talent for your organization" />
+<meta name="keywords" content="Talent, Worker, Resource, Hiring, Value" />
+{% endblock %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block local_style %}
+
+{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-sm-6">
+            <h3 class="mb-0 font-weight-bold">{{ request.user.get_full_name }}</h3>
+            <p>The best professionals right here</p>
+        </div>
+    </div>
+
+    <div class="row g-4 justify-content-left">
+        <div class="col-sm-6 col-xl-3 mt-2">
+            <div
+                class="border border-primary text-primary rounded d-flex align-items-center justify-content-between p-4">
+                <img class="rounded-circle" src="{% static 'assets/images/icons/anuncio.png' %}"
+                    style="width: 80px; height: 80px;" />
+                <div class="ms-5">
+                    <p class="mb-2">Total Job Posted</p>
+                    <h6 class="mb-0">{{ total_vacancies.count }}</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3 mt-2">
+            <div
+                class="border border-primary text-primary rounded d-flex align-items-center justify-content-between p-4">
+                <img class="rounded-circle" src="{% static 'assets/images/icons/procura.png' %}"
+                    style="width: 80px; height: 80px;" />
+                <div class="ms-5">
+                    <p class="mb-2">Total Active Vacancies</p>
+                    <h6 class="mb-0">{{ total_vacancies_active.count }}</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3 mt-2">
+            <div
+                class="border border-primary text-primary rounded d-flex align-items-center justify-content-between p-4">
+                <img class="rounded-circle" src="{% static 'assets/images/icons/user.png' %}"
+                    style="width: 80px; height: 80px;" />
+                <div class="ms-5">
+                    <p class="mb-2">Total Users</p>
+                    <h6 class="mb-0">{{ total_users.count }}</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3 mt-2">
+            <div
+                class="border border-primary text-primary rounded d-flex align-items-center justify-content-between p-4">
+                <img class="rounded-circle" src="{% static 'assets/images/icons/candidaturas.png' %}"
+                    style="width: 80px; height: 80px;" />
+                <div class="ms-5">
+                    <p class="mb-2">Total Applications</p>
+                    <h6 class="mb-0">{{ total_candidates.count }}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-lg-6 d-flex grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-wrap justify-content-between">
+                        <h4 class="card-title mb-3">Vacancies by Month</h4>
+                    </div>
+
+                    <div class="chart-container mt-4">
+                        <canvas id="bar_total_vacancies_by_month"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 d-flex grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-wrap justify-content-between">
+                        <h4 class="card-title mb-3">Users by Month</h4>
+                    </div>
+
+                    <div class="chart-container mt-4">
+                        <canvas id="total_user_by_month_line"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 d-flex grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-wrap justify-content-between">
+                        <h4 class="card-title mb-3">User Gender Distribution</h4>
+                    </div>
+
+                    <div class="chart-container mt-4">
+                        <canvas id="pie_total_users_gender"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 d-flex grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-wrap justify-content-between">
+                        <h4 class="card-title mb-3">Users with CV Distribution</h4>
+                    </div>
+
+                    <div class="chart-container mt-4">
+                        <canvas id="pie_total_users_without_cv"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block local_script %}
+<script>
+
+    var barTotalVacanciesByMonth = document.getElementById('bar_total_vacancies_by_month').getContext("2d");
+    var myChart1 = new Chart(barTotalVacanciesByMonth, {
+        type: "bar",
+        data: {
+            labels: {{ labels_bar_vacancies_by_month| safe }},
+            datasets: [{
+                label: 'Total Requests by Month',
+                data: {{ data_bar_vacancies_by_month| safe }},
+                backgroundColor: [
+                    "rgb(27,123, 233)",
+                    "rgb(13, 202, 240)",
+                    "rgb(255, 193, 7)",
+                    "rgb(254, 130, 151)",
+                    "rgb(228, 79, 38)",
+                    "rgb(123, 131, 235)",
+                    "rgb(75, 240, 123)",
+                ],
+                borderColor: "#FFFFFF",
+                borderWidth: 0.2,
+            }]
+        },
+    });
+
+    var totalUserByMonthLine = document.getElementById('total_user_by_month_line').getContext("2d");
+    var myChart2 = new Chart(totalUserByMonthLine, {
+        type: "line",
+        data: {
+            labels: {{ labels_users_by_month_line| safe }},
+            datasets: [{
+                label: "Total Value",
+                fill: false,
+                backgroundColor: "rgb(27,123, 233)",
+                data: {{ data_users_by_month_line| safe }},
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+    var pieTotalUserGender = document.getElementById('pie_total_users_gender').getContext("2d");
+    var myChart3 = new Chart(pieTotalUserGender, {
+        type: "pie",
+        data: {
+            labels: {{ labels_users_gender_pie| safe }},
+            datasets: [{
+                backgroundColor: [
+                    "rgb(254, 130, 151)",
+                    "rgb(13, 202, 240)",
+                    "rgb(75, 240, 123)",
+                    "rgb(123, 131, 235)",
+                    "rgb(228, 79, 38)",
+                    "rgb(255, 193, 7)",
+                ],
+                data: {{ data_users_gender_pie| safe }},
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+    var pieUserWithoutCV = document.getElementById('pie_total_users_without_cv').getContext("2d");
+    var myChart4 = new Chart(pieUserWithoutCV, {
+        type: "pie",
+        data: {
+            labels: {{ labels_users_without_pie| safe }},
+            datasets: [{
+                backgroundColor: [
+                    "rgb(13, 202, 240)",
+                    "rgb(254, 130, 151)",
+                    "rgb(75, 240, 123)",
+                    "rgb(123, 131, 235)",
+                    "rgb(228, 79, 38)",
+                    "rgb(255, 193, 7)",
+                ],
+                data: {{ data_users_without_pie| safe }},
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+</script>
+{% endblock %}
