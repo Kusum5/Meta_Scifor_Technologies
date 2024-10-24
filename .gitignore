@@ -6,3 +6,6 @@
 **/pixie.db
 **/samples
 **/_pycache
+**/.env
+**/.editorconfig
+**/.venv
